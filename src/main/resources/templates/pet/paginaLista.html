@@ -14,6 +14,7 @@
 						<th>Nome</th>
 						<th>Tipo</th>
 						<th>Sexo</th>
+						<th>Raça</th>
 						<th>Opções</th>
 					</tr>
 				</thead>
@@ -23,6 +24,7 @@
 						<td th:text="${pet.cracha}"></td>
 						<td th:text="${pet.nome}"></td>
 						<td th:text="${pet.tipo}"></td>
+						<td th:text="${pet.raca}"></td>
 						<td th:text="${pet.sexo}"></td>
 						<td>
 							<a class="btn btn-primary" th:href="@{/pet/editar(id=${pet.petId})}">Editar</a>
