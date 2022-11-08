@@ -2,6 +2,7 @@ package br.ufs.pethotel.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import br.ufs.pethotel.service.ServicoService;
 
@@ -14,6 +15,5 @@ public class ServicoController {
 	public ServicoController(ServicoService servicoService) {
 		this.servicoService = servicoService;
 	}
-	
 	
 }
