@@ -22,10 +22,9 @@ public class Servico {
 	private Long servicoId;
 	
 	@NotEmpty(message = "O Tipo de Serviço não pode ser vazio!")
-	@Column(unique = true, nullable = false, length = 50)
+	@Column(nullable = false, length = 50)
 	private String tipoServico;
 	
-	@NotEmpty(message = "O Valor do Serviço não pode ser vazio!")
 	@Column(nullable = false)
 	private Double valorServico;
 	
