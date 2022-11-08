@@ -3,10 +3,13 @@ package br.ufs.pethotel.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import br.ufs.pethotel.model.Servico;
 import br.ufs.pethotel.repository.EstadiaRepository;
 import br.ufs.pethotel.repository.ServicoRepository;
 
+@Service
 public class ServicoService {
 	
 	private ServicoRepository servicoRepository;

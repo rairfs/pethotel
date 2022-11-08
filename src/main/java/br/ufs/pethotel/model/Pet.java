@@ -29,6 +29,10 @@ public class Pet {
 	@Column(nullable = false, length = 45)
 	private String nome;
 	
+	@NotEmpty(message = "O Tipo não pode ser vazio!")
+	@Column(nullable = false, length = 45)
+	private String tipo;
+	
 	@NotEmpty(message = "O Sexo não pode ser vazio!")
 	@Column(nullable = false, length = 9)
 	private String sexo;
@@ -39,23 +43,26 @@ public class Pet {
 	public Pet() {
 	}
 
-	public Pet(String cracha, String nome, String sexo) {
+	public Pet(String cracha, String nome, String tipo, String sexo) {
 		this.cracha = cracha;
 		this.nome = nome;
+		this.setTipo(tipo);
 		this.sexo = sexo;
 	}
 
-	public Pet(String cracha, String nome, String sexo, List<Estadia> estadia) {
+	public Pet(String cracha, String nome, String tipo, String sexo, List<Estadia> estadia) {
 		this.cracha = cracha;
 		this.nome = nome;
+		this.setTipo(tipo);
 		this.sexo = sexo;
 		this.estadia = estadia;
 	}
 	
-	public Pet(Long petId, String cracha, String nome, String sexo, List<Estadia> estadia) {
+	public Pet(Long petId, String cracha, String nome, String tipo, String sexo, List<Estadia> estadia) {
 		this.petId = petId;
 		this.cracha = cracha;
 		this.nome = nome;
+		this.setTipo(tipo);
 		this.sexo = sexo;
 		this.estadia = estadia;
 	}
@@ -82,6 +89,14 @@ public class Pet {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public String getTipo() {
+		return tipo;
+	}
+	
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 	public String getSexo() {
@@ -117,6 +132,5 @@ public class Pet {
 		Pet other = (Pet) obj;
 		return Objects.equals(cracha, other.cracha) && Objects.equals(petId, other.petId);
 	}
-	
-	
+
 }
