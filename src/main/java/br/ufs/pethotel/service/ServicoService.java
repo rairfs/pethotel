@@ -6,18 +6,15 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import br.ufs.pethotel.model.Servico;
-import br.ufs.pethotel.repository.EstadiaRepository;
 import br.ufs.pethotel.repository.ServicoRepository;
 
 @Service
 public class ServicoService {
 	
 	private ServicoRepository servicoRepository;
-	private EstadiaRepository estadiaRepository;
 	
-	public ServicoService(ServicoRepository servicoRepository, EstadiaRepository estadiaRepository) {
+	public ServicoService(ServicoRepository servicoRepository) {
 		this.servicoRepository = servicoRepository;
-		this.estadiaRepository = estadiaRepository;
 	}
 	
 	public List<Servico> listarTodos(){
@@ -40,6 +37,10 @@ public class ServicoService {
 	
 	public void excluir(Long id) {
 		this.servicoRepository.deleteById(id);
+	}
+	
+	public void limparTabela() {
+		this.servicoRepository.deleteAll();
 	}
 
 }

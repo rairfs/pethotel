@@ -33,6 +33,10 @@ public class Pet {
 	@Column(nullable = false, length = 45)
 	private String tipo;
 	
+	@NotEmpty(message = "A raça não pode ser vazio!")
+	@Column(nullable = false, length = 45)
+	private String raca;
+	
 	@NotEmpty(message = "O Sexo não pode ser vazio!")
 	@Column(nullable = false, length = 9)
 	private String sexo;
@@ -43,26 +47,29 @@ public class Pet {
 	public Pet() {
 	}
 
-	public Pet(String cracha, String nome, String tipo, String sexo) {
+	public Pet(String cracha, String nome, String tipo, String raca, String sexo) {
 		this.cracha = cracha;
 		this.nome = nome;
-		this.setTipo(tipo);
+		this.tipo = tipo;
+		this.raca = raca;
 		this.sexo = sexo;
 	}
 
-	public Pet(String cracha, String nome, String tipo, String sexo, List<Estadia> estadia) {
+	public Pet(String cracha, String nome, String tipo, String raca, String sexo, List<Estadia> estadia) {
 		this.cracha = cracha;
 		this.nome = nome;
-		this.setTipo(tipo);
+		this.tipo = tipo;
+		this.raca = raca;
 		this.sexo = sexo;
 		this.estadia = estadia;
 	}
 	
-	public Pet(Long petId, String cracha, String nome, String tipo, String sexo, List<Estadia> estadia) {
+	public Pet(Long petId, String cracha, String nome, String tipo, String raca, String sexo, List<Estadia> estadia) {
 		this.petId = petId;
 		this.cracha = cracha;
 		this.nome = nome;
-		this.setTipo(tipo);
+		this.tipo = tipo;
+		this.raca = raca;
 		this.sexo = sexo;
 		this.estadia = estadia;
 	}
@@ -97,6 +104,14 @@ public class Pet {
 	
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
+	}
+	
+	public String getRaca() {
+		return raca;
+	}
+	
+	public void setRaca(String raca) {
+		this.raca = raca;
 	}
 
 	public String getSexo() {

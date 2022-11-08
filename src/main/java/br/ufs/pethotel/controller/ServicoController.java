@@ -6,10 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.ufs.pethotel.dto.servico.RegistroServicoDTO;
-import br.ufs.pethotel.dto.servico.ServicoMapper;
 import br.ufs.pethotel.model.Servico;
 import br.ufs.pethotel.service.ServicoService;
 
@@ -31,13 +31,18 @@ public class ServicoController {
 	}
 	
 	@PostMapping("/formulario")
-	public ModelAndView cadastrar(RegistroServicoDTO dto) {
+	public ModelAndView cadastrar(Servico servico) {
 		ModelAndView mv = new ModelAndView("servico/formulario.html");
 
-		mv.addObject("servico", new Servico());
-		
-		Servico servico = ServicoMapper.fromDTO(dto);
+		if (servico.getServicoId() != null) {
+			mv.addObject("servico", servico);
+		} else {
+			mv.addObject("servico", new Servico());
+		}
+				
 		servicoService.cadastrar(servico);
+		
+		mv.addObject("mensagem", "Servico salvo com sucesso!");
 		return mv;
 	}
 	
@@ -48,6 +53,38 @@ public class ServicoController {
 		List<Servico> servicos = servicoService.listarTodos();
 		
 		mv.addObject("listaServicos", servicos);
+		
+		return mv;
+	}
+	
+	@GetMapping("/editar")
+	public ModelAndView editar(@RequestParam Long id) {
+		ModelAndView mv = new ModelAndView("servico/formulario.html");
+		
+		Servico servico;
+		
+		try {
+			servico = servicoService.buscar(id);
+		} catch (Exception e) {
+			servico = new Servico();
+			mv.addObject("mensagem", e.getMessage());
+		}
+		
+		mv.addObject("servico", servico);
+		
+		return mv;
+	}
+	
+	@GetMapping("/excluir")
+	public ModelAndView excluir(Long id, RedirectAttributes redirect) {
+		ModelAndView mv = new ModelAndView("redirect:/servico");
+		
+		try {
+			servicoService.excluir(id);
+			redirect.addFlashAttribute("mensagem", "Serviço excluído com sucesso!");
+		} catch (Exception e) {
+			redirect.addAttribute("mensagem", e.getMessage());
+		}
 		
 		return mv;
 	}
