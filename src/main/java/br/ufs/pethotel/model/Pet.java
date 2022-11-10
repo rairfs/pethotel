@@ -1,8 +1,8 @@
 package br.ufs.pethotel.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,7 +42,7 @@ public class Pet {
 	private String sexo;
 	
 	@OneToMany(mappedBy = "pet")
-	private List<Estadia> estadia = new ArrayList<>();
+	private Set<Estadia> estadia = new HashSet<>();
 
 	public Pet() {
 	}
@@ -55,7 +55,7 @@ public class Pet {
 		this.sexo = sexo;
 	}
 
-	public Pet(String cracha, String nome, String tipo, String raca, String sexo, List<Estadia> estadia) {
+	public Pet(String cracha, String nome, String tipo, String raca, String sexo,  Set<Estadia> estadia) {
 		this.cracha = cracha;
 		this.nome = nome;
 		this.tipo = tipo;
@@ -64,7 +64,7 @@ public class Pet {
 		this.estadia = estadia;
 	}
 	
-	public Pet(Long petId, String cracha, String nome, String tipo, String raca, String sexo, List<Estadia> estadia) {
+	public Pet(Long petId, String cracha, String nome, String tipo, String raca, String sexo,  Set<Estadia> estadia) {
 		this.petId = petId;
 		this.cracha = cracha;
 		this.nome = nome;
@@ -123,12 +123,16 @@ public class Pet {
 	}
 	
 
-	public List<Estadia> getEstadia() {
+	public  Set<Estadia> getEstadia() {
 		return estadia;
 	}
 
-	public void setEstadia(List<Estadia> estadia) {
+	public void setEstadia(Set<Estadia> estadia) {
 		this.estadia = estadia;
+	}
+	
+	public void addEstadia(Estadia estadia) {
+		this.estadia.add(estadia);
 	}
 
 	@Override

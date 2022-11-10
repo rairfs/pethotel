@@ -42,5 +42,9 @@ public class ServicoService {
 	public void limparTabela() {
 		this.servicoRepository.deleteAll();
 	}
+	
+	public void removerItem(Long servicoId, Long petId) {
+		this.servicoRepository.DeletarByServicoIdAndPetId(servicoId, petId);
+	}
 
 }
