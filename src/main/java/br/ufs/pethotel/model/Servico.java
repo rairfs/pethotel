@@ -1,9 +1,10 @@
 package br.ufs.pethotel.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,8 +31,8 @@ public class Servico {
 	
 	private Integer diasUtilizados;
 	
-	@OneToMany(mappedBy = "servico")
-	private List<Estadia> estadia = new ArrayList<>();
+	@OneToMany(mappedBy = "servico", cascade = CascadeType.ALL)
+	private Set<Estadia> estadia = new HashSet<>();
 
 	public Servico() {
 	}
@@ -42,7 +43,7 @@ public class Servico {
 		this.diasUtilizados = diasUtilizados;
 	}
 
-	public Servico(String tipoServico, Double valorServico, Integer diasUtilizados, List<Estadia> estadia) {
+	public Servico(String tipoServico, Double valorServico, Integer diasUtilizados, Set<Estadia> estadia) {
 		this.tipoServico = tipoServico;
 		this.valorServico = valorServico;
 		this.diasUtilizados = diasUtilizados;
@@ -50,7 +51,7 @@ public class Servico {
 	}
 
 	public Servico(Long servicoId, String tipoServico, Double valorServico, Integer diasUtilizados,
-			List<Estadia> estadia) {
+			Set<Estadia> estadia) {
 		this.servicoId = servicoId;
 		this.tipoServico = tipoServico;
 		this.valorServico = valorServico;
@@ -90,12 +91,16 @@ public class Servico {
 		this.diasUtilizados = diasUtilizados;
 	}
 
-	public List<Estadia> getEstadia() {
+	public Set<Estadia> getEstadia() {
 		return estadia;
 	}
 
-	public void setEstadia(List<Estadia> estadia) {
+	public void setEstadia(Set<Estadia> estadia) {
 		this.estadia = estadia;
+	}
+	
+	public void addEstadia(Estadia estadia) {
+		this.estadia.add(estadia);
 	}
 
 	@Override

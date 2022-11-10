@@ -3,6 +3,7 @@ package br.ufs.pethotel.model;
 import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -16,22 +17,29 @@ public class Estadia {
 	@EmbeddedId
 	private EstadiaId estadiaId = new EstadiaId();
 	
-	@ManyToOne
 	@MapsId("petId")
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Pet pet;
 	
 	@MapsId("servicoId")
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Servico servico;
 	
-	private Date data_entrada;
+	private String data_entrada;
 	
-	private Date data_saida;
+	private String data_saida;
 
 	public Estadia() {
 	}
+	
+	public Estadia(Pet pet, Servico servico, String data_entrada, String data_saida) {
+		this.pet = pet;
+		this.servico = servico;
+		this.data_entrada = data_entrada;
+		this.data_saida = data_saida;
+	}
 
-	public Estadia(EstadiaId estadiaId, Pet pet, Servico servico, Date data_entrada, Date data_saida) {
+	public Estadia(EstadiaId estadiaId, Pet pet, Servico servico, String data_entrada, String data_saida) {
 		this.estadiaId = estadiaId;
 		this.pet = pet;
 		this.servico = servico;
@@ -63,19 +71,19 @@ public class Estadia {
 		this.servico = servico;
 	}
 
-	public Date getData_entrada() {
+	public String getData_entrada() {
 		return data_entrada;
 	}
 
-	public void setData_entrada(Date data_entrada) {
+	public void setData_entrada(String data_entrada) {
 		this.data_entrada = data_entrada;
 	}
 
-	public Date getData_saida() {
+	public String getData_saida() {
 		return data_saida;
 	}
 
-	public void setData_saida(Date data_saida) {
+	public void setData_saida(String data_saida) {
 		this.data_saida = data_saida;
 	}
 
