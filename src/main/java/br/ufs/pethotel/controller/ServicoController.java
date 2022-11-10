@@ -143,4 +143,35 @@ public class ServicoController {
 		return mv;
 	}
 	
+	@GetMapping("/removerPet")
+	public ModelAndView removerPet(Long id) {
+		ModelAndView mv = new ModelAndView("servico/removerPet.html");
+		
+		Servico servico;
+		
+		try {
+			servico = servicoService.buscar(id);
+		} catch (Exception e) {
+			servico = new Servico();
+			mv.addObject("mensagem", e.getMessage());
+		}
+		
+		mv.addObject("servico", servico);
+		mv.addObject("estadiaServico", servico.getEstadia());
+		return mv;
+	}
+	
+	@GetMapping("/removerPet/removerPetSucesso")
+	public ModelAndView removerItemSucesso(Long servicoId, Long petId) {
+		ModelAndView mv = new ModelAndView("redirect:/servico/removerPet?id=" + servicoId);
+		
+		try {
+			servicoService.removerItem(servicoId, petId);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return mv;
+		
+	}
 }
