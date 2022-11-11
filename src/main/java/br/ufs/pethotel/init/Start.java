@@ -45,8 +45,8 @@ public class Start implements CommandLineRunner {
 			Servico servico2 = new Servico("Estadia + Banho", 150.0, 1);
 			Servico servico3 = new Servico("Tosa", 30.0, 0);
 			
-			Estadia estadia1 = new Estadia(pet1, servico1, "10/11/2022", "12/11/2022");
-			Estadia estadia2 = new Estadia(pet2, servico1, "10/11/2022", "12/11/2022");
+			Estadia estadia1 = new Estadia(pet1, servico1, "10-11-2022", "12-11-2022");
+			Estadia estadia2 = new Estadia(pet2, servico1, "10-11-2022", "12-11-2022");
 			
 			servico1.addEstadia(estadia1);
 			servico1.addEstadia(estadia2);
@@ -55,10 +55,6 @@ public class Start implements CommandLineRunner {
 			servicoService.cadastrar(servico2);
 			servicoService.cadastrar(servico3);
 			
-			Servico servico = servicoService.buscar(1L);
-			servico.getEstadia().forEach(t -> {
-				System.out.println(t.getPet().getNome());
-			});
 			
 		}
 			

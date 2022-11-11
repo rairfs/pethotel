@@ -31,8 +31,6 @@
 						</td>
 						<td>
 							<a class="btn btn-primary" th:href="@{/servico/editar(id=${servico.servicoId})}">Editar</a>
-							<a class="btn btn-primary" th:href="@{/servico/adicionarPet(id=${servico.servicoId})}">Adicionar Pet</a>
-							<a class="btn btn-primary" th:href="@{/servico/removerPet(id=${servico.servicoId})}">Remover Pet</a>
 							<a class="btn btn-danger" th:href="@{/servico/excluir(id=${servico.servicoId})}" onclick="confirm('Você tem certeza que deseja excluir esta receita?')">Excluir</a>
 						</td>
 					</tr>

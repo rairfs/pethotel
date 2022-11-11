@@ -110,6 +110,7 @@ public class ServicoController {
 		mv.addObject("estadia", new Estadia());
 		mv.addObject("servicoId", idConvertido);
 		mv.addObject("pets", petService.listarTodos());
+		mv.addObject("servicos", servicoService.listarTodos());
 		
 		return mv;
 	}
@@ -121,13 +122,13 @@ public class ServicoController {
 		Servico servico;
 		
 		try {
-			servico = servicoService.buscar(id);
+			servico = servicoService.buscar(estadia.getServico().getServicoId());
 		} catch (Exception e) {
 			servico = new Servico();
 			mv.addObject("mensagem", e.getMessage());
 		}
 		
-		Estadia estadiaConfigurada = new Estadia(estadia.getPet(), servico, estadia.getData_entrada(), estadia.getData_saida());
+		Estadia estadiaConfigurada = new Estadia(estadia.getPet(), servico, estadia.getData_entrada(), estadia.getData_entrada());
 		servico.addEstadia(estadiaConfigurada);
 		
 		try {
