@@ -9,7 +9,7 @@
 			Cadastrar Pedido
 		</div>
 		<div class="card-body">
-			<form th:object="${estadia}" class="form" method="POST" th:action="@{/servico/adicionarPet(id=${servicoId})}">
+			<form th:object="${estadia}" class="form" method="POST" th:action="@{/servico/adicionarPet}">
 				<input type="hidden" th:name="${servicoId}" th:value="${servicoId}">
 				<div class="form-group mt-3">
 					<label>Selecione o Servico:</label>

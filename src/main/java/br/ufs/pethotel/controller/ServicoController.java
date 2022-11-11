@@ -94,21 +94,10 @@ public class ServicoController {
 	}
 	
 	@GetMapping("/adicionarPet")
-	public ModelAndView adicionarPet(String id) {
+	public ModelAndView adicionarPet() {
 		ModelAndView mv = new ModelAndView("servico/adicionarPet.html");
 		
-		Long idConvertido;
-		
-		try {
-			idConvertido = Long.parseLong(id);
-		} catch (Exception e) {
-			idConvertido = 1L;
-			mv.addObject("mensagem", "Não é um número");
-		}
-		
-		
 		mv.addObject("estadia", new Estadia());
-		mv.addObject("servicoId", idConvertido);
 		mv.addObject("pets", petService.listarTodos());
 		mv.addObject("servicos", servicoService.listarTodos());
 		
@@ -116,7 +105,7 @@ public class ServicoController {
 	}
 	
 	@PostMapping(path = "/adicionarPet")
-	public ModelAndView adicionarPet(Long id, Estadia estadia) {
+	public ModelAndView adicionarPet(Estadia estadia) {
 		ModelAndView mv = new ModelAndView("servico/adicionarPet.html");
 		
 		Servico servico;

@@ -13,8 +13,6 @@
 						<th>ID</th>
 						<th>Tipo do Serviço</th>
 						<th>Valor do Serviço</th>
-						<th>Dias Utilizados</th>
-						<th>Pets</th>
 						<th>Opções</th>
 					</tr>
 				</thead>
@@ -23,12 +21,6 @@
 						<td>[[${servico.servicoId}]]</td>
 						<td>[[${servico.tipoServico}]]</td>
 						<td>[[${servico.valorServico}]]</td>
-						<td>[[${servico.diasUtilizados}]]</td>
-						<td>
-							<ul th:each="item, posicao : ${servico.estadia}">
-								<li th:text="${item.pet.nome}"></li>
-							</ul>
-						</td>
 						<td>
 							<a class="btn btn-primary" th:href="@{/servico/editar(id=${servico.servicoId})}">Editar</a>
 							<a class="btn btn-danger" th:href="@{/servico/excluir(id=${servico.servicoId})}" onclick="confirm('Você tem certeza que deseja excluir esta receita?')">Excluir</a>
