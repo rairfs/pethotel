@@ -50,13 +50,17 @@ public class PedidoController {
 	public ModelAndView cadastrar(Estadia estadia) {
 		ModelAndView mv = new ModelAndView("estadia/formulario.html");
 		
-		if (estadia.getPet().getPetId() != null && estadia.getServico().getServicoId() != null) {
+		if (estadia.getEstadiaId() != null) {
 			mv.addObject("estadia", estadia);
 		} else {
 			mv.addObject("estadia", new Estadia());
 		}
 		
-		estadiaRepository.save(estadia);
+		try {
+			estadiaRepository.save(estadia);			
+		} catch (Exception e) {
+			mv.addObject("mensagem", e.getMessage());
+		}
 		
 		return mv;
 	}
@@ -69,6 +73,7 @@ public class PedidoController {
 		
 		try {
 			estadia = estadiaRepository.findByPetPetIdAndServicoServicoId(petId, servicoId);
+			System.out.println(estadia);
 		} catch (Exception e) {
 			estadia = new Estadia();
 			mv.addObject("mensagem", e.getMessage());
