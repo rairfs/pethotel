@@ -63,6 +63,10 @@ public class PedidoController {
 			mv.addObject("mensagem", e.getMessage());
 		}
 		
+		mv.addObject("estadia", new Estadia());
+		mv.addObject("pets", petService.listarTodos());
+		mv.addObject("servicos", servicoService.listarTodos());
+		
 		return mv;
 	}
 	

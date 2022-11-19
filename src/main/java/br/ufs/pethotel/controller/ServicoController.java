@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.ufs.pethotel.model.Estadia;
 import br.ufs.pethotel.model.Servico;
 import br.ufs.pethotel.service.ServicoService;
 
@@ -91,13 +92,35 @@ public class ServicoController {
 	public ModelAndView excluir(@RequestParam Long id, RedirectAttributes redirect) {
 		ModelAndView mv = new ModelAndView("redirect:/servico");
 		
+		List<Servico> servicoBefore = servicoService.listarTodos();
+		
 		try {
-			servicoService.excluir(id);
-			redirect.addFlashAttribute("mensagem", "Serviço excluído com sucesso!");
+			servicoService.excluir(id);			
 		} catch (Exception e) {
-			redirect.addAttribute("mensagem", e.getMessage());
+			redirect.addFlashAttribute("mensagem", e.getMessage());
 		}
 		
+		List<Servico> servicoAfter = servicoService.listarTodos();
+		
+		Servico servico;
+		
+		try {
+			servico = servicoService.buscar(id);
+		} catch (Exception e) {
+			servico = new Servico();
+			redirect.addFlashAttribute("mensagem", e.getMessage());
+		}
+		String pets = "";
+		
+		for (Estadia estadia : servico.getEstadia()) {
+			pets = pets + estadia.getPet().getCracha() + "; ";
+		}
+		
+		if (servicoBefore.size() == servicoAfter.size()) {
+			redirect.addFlashAttribute("mensagem", "Erro ao excluir! Serviço vinculado aos Pets: " + pets);
+		} else {
+			redirect.addFlashAttribute("mensagem", "Servico excluído com sucesso!");
+		}
 		return mv;
 	}
 	

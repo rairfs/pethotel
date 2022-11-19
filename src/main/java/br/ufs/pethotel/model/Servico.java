@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,33 +34,28 @@ public class Servico {
 	@DecimalMin(value = "0.1", message = "Valor não pode ser menor que zero")
 	private Double valorServico;
 	
-	private Integer diasUtilizados;
-	
-	@OneToMany(mappedBy = "servico", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "servico", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	private Set<Estadia> estadia = new HashSet<>();
 
 	public Servico() {
 	}
 
-	public Servico(String tipoServico, Double valorServico, Integer diasUtilizados) {
+	public Servico(String tipoServico, Double valorServico) {
 		this.tipoServico = tipoServico;
 		this.valorServico = valorServico;
-		this.diasUtilizados = diasUtilizados;
 	}
 
-	public Servico(String tipoServico, Double valorServico, Integer diasUtilizados, Set<Estadia> estadia) {
+	public Servico(String tipoServico, Double valorServico, Set<Estadia> estadia) {
 		this.tipoServico = tipoServico;
 		this.valorServico = valorServico;
-		this.diasUtilizados = diasUtilizados;
 		this.estadia = estadia;
 	}
 
-	public Servico(Long servicoId, String tipoServico, Double valorServico, Integer diasUtilizados,
+	public Servico(Long servicoId, String tipoServico, Double valorServico,
 			Set<Estadia> estadia) {
 		this.servicoId = servicoId;
 		this.tipoServico = tipoServico;
 		this.valorServico = valorServico;
-		this.diasUtilizados = diasUtilizados;
 		this.estadia = estadia;
 	}
 
@@ -85,14 +81,6 @@ public class Servico {
 
 	public void setValorServico(Double valorServico) {
 		this.valorServico = valorServico;
-	}
-
-	public Integer getDiasUtilizados() {
-		return diasUtilizados;
-	}
-
-	public void setDiasUtilizados(Integer diasUtilizados) {
-		this.diasUtilizados = diasUtilizados;
 	}
 
 	public Set<Estadia> getEstadia() {
