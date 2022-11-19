@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.ufs.pethotel.model.Estadia;
 import br.ufs.pethotel.model.Servico;
-import br.ufs.pethotel.service.PetService;
 import br.ufs.pethotel.service.ServicoService;
 
 @Controller
@@ -23,11 +21,9 @@ import br.ufs.pethotel.service.ServicoService;
 public class ServicoController {
 
 	private ServicoService servicoService;
-	private PetService petService;
 
-	public ServicoController(ServicoService servicoService, PetService petService) {
+	public ServicoController(ServicoService servicoService) {
 		this.servicoService = servicoService;
-		this.petService = petService;
 	}
 	
 	@GetMapping("/formulario")

@@ -1,6 +1,5 @@
 package br.ufs.pethotel.model;
 
-import java.util.Date;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
