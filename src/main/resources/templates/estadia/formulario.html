@@ -10,7 +10,6 @@
 		</div>
 		<div class="card-body">
 			<form th:object="${estadia}" class="form" method="POST" th:action="@{/pedido/adicionar}">
-				<input type="hidden" th:field="*{estadiaId}">
 				<div class="form-group mt-3">
 					<label>Selecione o Servico:</label>
 					<select class="form-select" th:field="*{servico}">
@@ -35,5 +34,6 @@
 			</form>
 		</div>
 	</div>
+	<div class="alert alert-primary mt-3" th:if="${mensagem != null}" th:text="${mensagem}"></div>
 </div>
 </html>

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "pets")
@@ -22,23 +23,28 @@ public class Pet {
 	private Long petId;
 	
 	@NotEmpty(message = "O Crachá não pode ser vazio!")
+	@Size(min = 1, max = 10)
 	@Column(unique = true, nullable = false, length = 10)
 	private String cracha;
 	
 	@NotEmpty(message = "O Nome não pode ser vazio!")
 	@Column(nullable = false, length = 45)
+	@Size(min = 1, max = 45)
 	private String nome;
 	
 	@NotEmpty(message = "O Tipo não pode ser vazio!")
 	@Column(nullable = false, length = 45)
+	@Size(min = 1, max = 45)
 	private String tipo;
 	
 	@NotEmpty(message = "A raça não pode ser vazio!")
 	@Column(nullable = false, length = 45)
+	@Size(min = 1, max = 45)
 	private String raca;
 	
 	@NotEmpty(message = "O Sexo não pode ser vazio!")
 	@Column(nullable = false, length = 9)
+	@Size(min = 1, max = 9)
 	private String sexo;
 	
 	@OneToMany(mappedBy = "pet")

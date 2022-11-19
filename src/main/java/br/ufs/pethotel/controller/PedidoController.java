@@ -1,6 +1,9 @@
 package br.ufs.pethotel.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,17 +50,17 @@ public class PedidoController {
 	}
 	
 	@PostMapping(path = "/adicionar")
-	public ModelAndView cadastrar(Estadia estadia) {
+	public ModelAndView cadastrar(@Valid Estadia estadia, BindingResult result) {
 		ModelAndView mv = new ModelAndView("estadia/formulario.html");
 		
-		if (estadia.getEstadiaId() != null) {
+		if (result.hasErrors()) {
 			mv.addObject("estadia", estadia);
-		} else {
-			mv.addObject("estadia", new Estadia());
+			return mv;
 		}
 		
 		try {
-			estadiaRepository.save(estadia);			
+			estadiaRepository.save(estadia);		
+			mv.addObject("mensagem", "Pedido salvo com sucesso!");
 		} catch (Exception e) {
 			mv.addObject("mensagem", e.getMessage());
 		}
@@ -65,27 +68,6 @@ public class PedidoController {
 		return mv;
 	}
 	
-	@GetMapping("/editar")
-	public ModelAndView editar(@RequestParam Long petId, @RequestParam Long servicoId) {
-		ModelAndView mv = new ModelAndView("estadia/formulario.html");
-		
-		Estadia estadia;
-		
-		try {
-			estadia = estadiaRepository.findByPetPetIdAndServicoServicoId(petId, servicoId);
-			System.out.println(estadia);
-		} catch (Exception e) {
-			estadia = new Estadia();
-			mv.addObject("mensagem", e.getMessage());
-		}
-		
-		//TODO Terminar de ajustar
-		mv.addObject("estadia", estadia);
-		mv.addObject("pets", petService.listarTodos());
-		mv.addObject("servicos", servicoService.listarTodos());
-		
-		return mv;
-	}
 	
 	@GetMapping("/excluir")
 	public ModelAndView excluir(@RequestParam Long petId, @RequestParam Long servicoId) {

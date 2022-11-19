@@ -2,7 +2,10 @@ package br.ufs.pethotel.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,18 +38,27 @@ public class ServicoController {
 	}
 	
 	@PostMapping("/formulario")
-	public ModelAndView cadastrar(Servico servico) {
+	public ModelAndView cadastrar(@Valid Servico servico, BindingResult result) {
 		ModelAndView mv = new ModelAndView("servico/formulario.html");
+		
+		if (result.hasErrors()) {
+			mv.addObject("servico", servico);
+			return mv;
+		}
 
 		if (servico.getServicoId() != null) {
 			mv.addObject("servico", servico);
 		} else {
 			mv.addObject("servico", new Servico());
 		}
-				
-		servicoService.cadastrar(servico);
 		
-		mv.addObject("mensagem", "Servico salvo com sucesso!");
+		try {
+			servicoService.cadastrar(servico);			
+			mv.addObject("mensagem", "Servico salvo com sucesso!");
+		} catch (Exception e) {
+			mv.addObject("mensagem", e.getMessage());
+		}
+		
 		return mv;
 	}
 	
