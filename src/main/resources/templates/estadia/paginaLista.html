@@ -14,6 +14,7 @@
 						<th>Serviço</th>
 						<th>Data de Entrada</th>
 						<th>Data de Saída</th>
+						<th>Opções</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -22,6 +23,10 @@
 						<td>[[${estadia.servico.tipoServico}]]</td>
 						<td>[[${estadia.data_entrada}]]</td>
 						<td>[[${estadia.data_saida}]]</td>
+						<td>
+							<a class="btn btn-primary" th:href="@{/pedido/editar(petId=${estadia.pet.petId},servicoId=${estadia.servico.servicoId})}">Editar</a>
+							<a class="btn btn-danger" th:href="@{/pedido/excluir(petId=${estadia.pet.petId},servicoId=${estadia.servico.servicoId})}" onclick="confirm('Você tem certeza que deseja excluir esta receita?')">Excluir</a>
+						</td>
 					</tr>
 				</tbody>
 			</table>

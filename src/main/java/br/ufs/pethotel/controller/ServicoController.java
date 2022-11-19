@@ -80,7 +80,7 @@ public class ServicoController {
 	}
 	
 	@GetMapping("/excluir")
-	public ModelAndView excluir(Long id, RedirectAttributes redirect) {
+	public ModelAndView excluir(@RequestParam Long id, RedirectAttributes redirect) {
 		ModelAndView mv = new ModelAndView("redirect:/servico");
 		
 		try {
@@ -93,75 +93,5 @@ public class ServicoController {
 		return mv;
 	}
 	
-	@GetMapping("/adicionarPet")
-	public ModelAndView adicionarPet() {
-		ModelAndView mv = new ModelAndView("servico/adicionarPet.html");
-		
-		mv.addObject("estadia", new Estadia());
-		mv.addObject("pets", petService.listarTodos());
-		mv.addObject("servicos", servicoService.listarTodos());
-		
-		return mv;
-	}
-	
-	@PostMapping(path = "/adicionarPet")
-	public ModelAndView adicionarPet(Estadia estadia) {
-		ModelAndView mv = new ModelAndView("servico/adicionarPet.html");
-		
-		Servico servico;
-		
-		try {
-			servico = servicoService.buscar(estadia.getServico().getServicoId());
-		} catch (Exception e) {
-			servico = new Servico();
-			mv.addObject("mensagem", e.getMessage());
-		}
-		
-		Estadia estadiaConfigurada = new Estadia(estadia.getPet(), servico, estadia.getData_entrada(), estadia.getData_entrada());
-		servico.addEstadia(estadiaConfigurada);
-		
-		try {
-			servicoService.cadastrar(servico);
-		} catch (Exception e) {
-			mv.addObject("mensagem", "Erro ao salvar no banco de dados! Erro: " + e.getMessage());
-		}
-		
-		mv.addObject("estadia", new Estadia());
-		mv.addObject("mensagem", "Serviço atualizado com sucesso!");
-		mv.addObject("pets", petService.listarTodos());
-		
-		return mv;
-	}
-	
-	@GetMapping("/removerPet")
-	public ModelAndView removerPet(Long id) {
-		ModelAndView mv = new ModelAndView("servico/removerPet.html");
-		
-		Servico servico;
-		
-		try {
-			servico = servicoService.buscar(id);
-		} catch (Exception e) {
-			servico = new Servico();
-			mv.addObject("mensagem", e.getMessage());
-		}
-		
-		mv.addObject("servico", servico);
-		mv.addObject("estadiaServico", servico.getEstadia());
-		return mv;
-	}
-	
-	@GetMapping("/removerPet/removerPetSucesso")
-	public ModelAndView removerItemSucesso(Long servicoId, Long petId) {
-		ModelAndView mv = new ModelAndView("redirect:/servico/removerPet?id=" + servicoId);
-		
-		try {
-			servicoService.removerItem(servicoId, petId);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		
-		return mv;
-		
-	}
+
 }

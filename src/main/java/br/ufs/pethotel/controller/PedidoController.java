@@ -4,9 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.ufs.pethotel.model.Estadia;
+import br.ufs.pethotel.model.Pet;
 import br.ufs.pethotel.model.Servico;
 import br.ufs.pethotel.repository.EstadiaRepository;
 import br.ufs.pethotel.service.PetService;
@@ -34,21 +36,10 @@ public class PedidoController {
 	}
 	
 	@GetMapping("/adicionar")
-	public ModelAndView adicionarPet(String id) {
+	public ModelAndView telaCadastro() {
 		ModelAndView mv = new ModelAndView("estadia/formulario.html");
 		
-		Long idConvertido;
-		
-		try {
-			idConvertido = Long.parseLong(id);
-		} catch (Exception e) {
-			idConvertido = 1L;
-			mv.addObject("mensagem", "Não é um número");
-		}
-		
-		
 		mv.addObject("estadia", new Estadia());
-		mv.addObject("servicoId", idConvertido);
 		mv.addObject("pets", petService.listarTodos());
 		mv.addObject("servicos", servicoService.listarTodos());
 		
@@ -56,31 +47,50 @@ public class PedidoController {
 	}
 	
 	@PostMapping(path = "/adicionar")
-	public ModelAndView adicionarPet(Long id, Estadia estadia) {
+	public ModelAndView cadastrar(Estadia estadia) {
 		ModelAndView mv = new ModelAndView("estadia/formulario.html");
 		
-		Servico servico;
-		
-		try {
-			servico = servicoService.buscar(estadia.getServico().getServicoId());
-		} catch (Exception e) {
-			servico = new Servico();
-			mv.addObject("mensagem", e.getMessage());
+		if (estadia.getPet().getPetId() != null && estadia.getServico().getServicoId() != null) {
+			mv.addObject("estadia", estadia);
+		} else {
+			mv.addObject("estadia", new Estadia());
 		}
 		
-		Estadia estadiaConfigurada = new Estadia(estadia.getPet(), servico, estadia.getData_entrada(), estadia.getData_entrada());
-		servico.addEstadia(estadiaConfigurada);
-		
-		try {
-			servicoService.cadastrar(servico);
-		} catch (Exception e) {
-			mv.addObject("mensagem", "Erro ao salvar no banco de dados! Erro: " + e.getMessage());
-		}
-		
-		mv.addObject("estadia", new Estadia());
-		mv.addObject("mensagem", "Serviço atualizado com sucesso!");
-		mv.addObject("pets", petService.listarTodos());
+		estadiaRepository.save(estadia);
 		
 		return mv;
 	}
+	
+	@GetMapping("/editar")
+	public ModelAndView editar(@RequestParam Long petId, @RequestParam Long servicoId) {
+		ModelAndView mv = new ModelAndView("estadia/formulario.html");
+		
+		Estadia estadia;
+		
+		try {
+			estadia = estadiaRepository.findByPetPetIdAndServicoServicoId(petId, servicoId);
+		} catch (Exception e) {
+			estadia = new Estadia();
+			mv.addObject("mensagem", e.getMessage());
+		}
+		
+		//TODO Terminar de ajustar
+		mv.addObject("estadia", estadia);
+		mv.addObject("pets", petService.listarTodos());
+		mv.addObject("servicos", servicoService.listarTodos());
+		
+		return mv;
+	}
+	
+	@GetMapping("/excluir")
+	public ModelAndView excluir(@RequestParam Long petId, @RequestParam Long servicoId) {
+		ModelAndView mv = new ModelAndView("redirect:/pedido");
+		
+		System.out.println(servicoId);
+		System.out.println(petId);
+		this.servicoService.removerItem(servicoId, petId);
+		
+		return mv;
+	}
+	
 }
