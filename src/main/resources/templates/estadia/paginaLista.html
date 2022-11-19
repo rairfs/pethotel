@@ -2,13 +2,13 @@
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/layout.html}">
-<div layout:fragment="content">
+<main layout:fragment="content">
 	<a class="btn btn-primary mt-3" th:href="@{/pedido/adicionar}">Cadastrar Novo Pedido</a>
 	<div class="alert alert-primary mt-3" th:if="${#lists.isEmpty(estadias)}">Nenhum Pedido encontrado!</div>
 	<div class="alert alert-warning mt-3" th:if="${mensagem != null}" th:text="${mensagem}"></div>
 	<div class="card mt-3">
 		<div class="card-header">Pedidos Realizados</div>
-		<div class="card-body">
+		<div class="card-body" th:if="${not #lists.isEmpty(estadias)}">
 			<table class="table table-striped">
 				<thead>
 					<tr>
@@ -23,15 +23,15 @@
 					<tr th:each="estadia: ${estadias}">
 						<td>[[${estadia.pet.nome}]]</td>
 						<td>[[${estadia.servico.tipoServico}]]</td>
-						<td>[[${estadia.data_entrada}]]</td>
-						<td>[[${estadia.data_saida}]]</td>
+						<td th:text="${#dates.format(estadia.data_entrada, 'dd/MM/yyyy')}"></td>
+						<td th:text="${#dates.format(estadia.data_saida, 'dd/MM/yyyy')}"></td>
 						<td>
-							<a class="btn btn-danger" th:href="@{/pedido/excluir(petId=${estadia.pet.petId},servicoId=${estadia.servico.servicoId})}" onclick="confirm('Você tem certeza que deseja excluir esta receita?')">Excluir</a>
+							<a class="btn btn-danger" th:href="@{/pedido/excluir(petId=${estadia.pet.petId},servicoId=${estadia.servico.servicoId})}" onclick="confirm('Você tem certeza que deseja excluir este Pedido?')">Excluir</a>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
-</div>
+</main>
 </html>

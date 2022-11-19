@@ -36,7 +36,7 @@ public class ServicoService {
 	}
 	
 	public void excluir(Long id) {
-		this.servicoRepository.deleteById(id);
+		this.servicoRepository.deleteById(id);			
 	}
 	
 	public void limparTabela() {

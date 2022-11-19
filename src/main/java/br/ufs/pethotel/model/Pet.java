@@ -4,8 +4,10 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,7 +49,7 @@ public class Pet {
 	@Size(min = 1, max = 9)
 	private String sexo;
 	
-	@OneToMany(mappedBy = "pet")
+	@OneToMany(mappedBy = "pet", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	private Set<Estadia> estadia = new HashSet<>();
 
 	public Pet() {

@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.ufs.pethotel.model.Estadia;
-import br.ufs.pethotel.model.Pet;
-import br.ufs.pethotel.model.Servico;
 import br.ufs.pethotel.repository.EstadiaRepository;
 import br.ufs.pethotel.service.PetService;
 import br.ufs.pethotel.service.ServicoService;
@@ -64,6 +62,10 @@ public class PedidoController {
 		} catch (Exception e) {
 			mv.addObject("mensagem", e.getMessage());
 		}
+		
+		mv.addObject("estadia", new Estadia());
+		mv.addObject("pets", petService.listarTodos());
+		mv.addObject("servicos", servicoService.listarTodos());
 		
 		return mv;
 	}

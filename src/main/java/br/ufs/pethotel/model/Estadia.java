@@ -6,9 +6,12 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "estadias")
@@ -18,28 +21,32 @@ public class Estadia {
 	private EstadiaId estadiaId = new EstadiaId();
 	
 	@MapsId("petId")
-	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "pet_id")
+	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	private Pet pet;
 	
+	@JoinColumn(name = "servico_id")
 	@MapsId("servicoId")
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	private Servico servico;
 	
-	private String data_entrada;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date data_entrada;
 	
-	private String data_saida;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date data_saida;
 
 	public Estadia() {
 	}
 	
-	public Estadia(Pet pet, Servico servico, String data_entrada, String data_saida) {
+	public Estadia(Pet pet, Servico servico, Date data_entrada, Date data_saida) {
 		this.pet = pet;
 		this.servico = servico;
 		this.data_entrada = data_entrada;
 		this.data_saida = data_saida;
 	}
 
-	public Estadia(EstadiaId estadiaId, Pet pet, Servico servico, String data_entrada, String data_saida) {
+	public Estadia(EstadiaId estadiaId, Pet pet, Servico servico, Date data_entrada, Date data_saida) {
 		this.estadiaId = estadiaId;
 		this.pet = pet;
 		this.servico = servico;
@@ -71,19 +78,19 @@ public class Estadia {
 		this.servico = servico;
 	}
 
-	public String getData_entrada() {
+	public Date getData_entrada() {
 		return data_entrada;
 	}
 
-	public void setData_entrada(String data_entrada) {
+	public void setData_entrada(Date data_entrada) {
 		this.data_entrada = data_entrada;
 	}
 
-	public String getData_saida() {
+	public Date getData_saida() {
 		return data_saida;
 	}
 
-	public void setData_saida(String data_saida) {
+	public void setData_saida(Date data_saida) {
 		this.data_saida = data_saida;
 	}
 
