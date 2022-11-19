@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout.html}">
+<main layout:fragment="content">
+	<a class="btn btn-primary mt-3" th:href="@{/pet/formulario}">Cadastrar Novo Pet</a>
+	<div class="alert alert-primary mt-3" th:if="${#lists.isEmpty(listaPets)}">Nenhum Pet encontrado!</div>
+	<div class="alert alert-warning mt-3" th:if="${mensagem != null}" th:text="${mensagem}"></div>
+	<div class="card mt-3">
+		<div class="card-header">Pets Cadastrados</div>
+		<div class="card-body" th:if="${not #lists.isEmpty(listaPets)}">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Crachá</th>
+						<th>Nome</th>
+						<th>Tipo</th>
+						<th>Sexo</th>
+						<th>Raça</th>
+						<th>Opções</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="pet: ${listaPets}">
+						<td>[[${pet.petId}]]</td>
+						<td>[[${pet.cracha}]]</td>
+						<td>[[${pet.nome}]]</td>
+						<td>[[${pet.tipo}]]</td>
+						<td>[[${pet.raca}]]</td>
+						<td>[[${pet.sexo}]]</td>
+						<td>
+							<a class="btn btn-primary" th:href="@{/pet/editar(id=${pet.petId})}">Editar</a>
+							<a class="btn btn-danger" th:href="@{/pet/excluir(id=${pet.petId})}" onclick="confirm('Você tem certeza que deseja excluir este Pet?')">Excluir</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</main>
+</html>

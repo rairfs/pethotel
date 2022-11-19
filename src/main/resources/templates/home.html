@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout.html}">
+<main layout:fragment="content">
+	<section>
+		<div>
+			<h1 class="titulo">Bem vindo ao Pet Hotel</h1>
+			<h3>Aqui você deixa seu Pet em casa!</h3>
+		</div>
+		<div class="servicos">
+			<h4 class="legenda">Conheça alguns dos nossos Serviços</h4>
+			<div class="imagens">
+				<div class="serv">
+					<img alt="Estadia" th:src="@{/images/pets.jpg}">
+					<span>Estadia</span>
+				</div>
+				<div class="serv">
+					<img alt="Tosa" th:src="@{/images/tosa.jpg}">
+					<span>Tosa</span>
+				</div>
+				<div class="serv">
+					<img alt="Banho" th:src="@{/images/horse-bath.jpg}">
+					<span>Banho</span>
+				</div>
+			</div>
+			<h4 class="below-img"><strong>E muito mais!</strong></h4>
+		</div>
+	</section>
+</main>
+</html>

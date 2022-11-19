@@ -6,18 +6,15 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import br.ufs.pethotel.model.Pet;
-import br.ufs.pethotel.repository.EstadiaRepository;
 import br.ufs.pethotel.repository.PetRepository;
 
 @Service
 public class PetService {
 
 	private PetRepository petRepository;
-	private EstadiaRepository estadiaRepository;
 	
-	public PetService(PetRepository petRepository, EstadiaRepository estadiaRepository) {
+	public PetService(PetRepository petRepository) {
 		this.petRepository = petRepository;
-		this.estadiaRepository = estadiaRepository;
 	}
 	
 	public List<Pet> listarTodos(){
@@ -40,6 +37,10 @@ public class PetService {
 	
 	public void excluir(Long id) {
 		this.petRepository.deleteById(id);
+	}
+	
+	public void limparTabela() {
+		this.petRepository.deleteAll();
 	}
 	
 }

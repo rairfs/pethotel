@@ -1,17 +1,21 @@
 package br.ufs.pethotel.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "servicos")
@@ -22,40 +26,36 @@ public class Servico {
 	private Long servicoId;
 	
 	@NotEmpty(message = "O Tipo de Serviço não pode ser vazio!")
-	@Column(unique = true, nullable = false, length = 50)
+	@Column(nullable = false, length = 50)
+	@Size(min = 1, max = 50)
 	private String tipoServico;
 	
-	@NotEmpty(message = "O Valor do Serviço não pode ser vazio!")
 	@Column(nullable = false)
+	@DecimalMin(value = "0.1", message = "Valor não pode ser menor que zero")
 	private Double valorServico;
 	
-	private Integer diasUtilizados;
-	
-	@OneToMany(mappedBy = "servico")
-	private List<Estadia> estadia = new ArrayList<>();
+	@OneToMany(mappedBy = "servico", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	private Set<Estadia> estadia = new HashSet<>();
 
 	public Servico() {
 	}
 
-	public Servico(String tipoServico, Double valorServico, Integer diasUtilizados) {
+	public Servico(String tipoServico, Double valorServico) {
 		this.tipoServico = tipoServico;
 		this.valorServico = valorServico;
-		this.diasUtilizados = diasUtilizados;
 	}
 
-	public Servico(String tipoServico, Double valorServico, Integer diasUtilizados, List<Estadia> estadia) {
+	public Servico(String tipoServico, Double valorServico, Set<Estadia> estadia) {
 		this.tipoServico = tipoServico;
 		this.valorServico = valorServico;
-		this.diasUtilizados = diasUtilizados;
 		this.estadia = estadia;
 	}
 
-	public Servico(Long servicoId, String tipoServico, Double valorServico, Integer diasUtilizados,
-			List<Estadia> estadia) {
+	public Servico(Long servicoId, String tipoServico, Double valorServico,
+			Set<Estadia> estadia) {
 		this.servicoId = servicoId;
 		this.tipoServico = tipoServico;
 		this.valorServico = valorServico;
-		this.diasUtilizados = diasUtilizados;
 		this.estadia = estadia;
 	}
 
@@ -83,20 +83,16 @@ public class Servico {
 		this.valorServico = valorServico;
 	}
 
-	public Integer getDiasUtilizados() {
-		return diasUtilizados;
-	}
-
-	public void setDiasUtilizados(Integer diasUtilizados) {
-		this.diasUtilizados = diasUtilizados;
-	}
-
-	public List<Estadia> getEstadia() {
+	public Set<Estadia> getEstadia() {
 		return estadia;
 	}
 
-	public void setEstadia(List<Estadia> estadia) {
+	public void setEstadia(Set<Estadia> estadia) {
 		this.estadia = estadia;
+	}
+	
+	public void addEstadia(Estadia estadia) {
+		this.estadia.add(estadia);
 	}
 
 	@Override

@@ -6,5 +6,7 @@ import br.ufs.pethotel.model.Estadia;
 import br.ufs.pethotel.model.EstadiaId;
 
 public interface EstadiaRepository extends JpaRepository<Estadia, EstadiaId> {
+	
+	Estadia findByPetPetIdAndServicoServicoId(Long petId, Long servicoId);
 
 }

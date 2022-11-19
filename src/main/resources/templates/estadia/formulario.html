@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout.html}">
+<main layout:fragment="content">
+
+	<div class="card mt-3">
+		<div class="card-header">
+			Cadastrar Pedido
+		</div>
+		<div class="card-body">
+			<form th:object="${estadia}" class="form" method="POST" th:action="@{/pedido/adicionar}">
+				<div class="form-group mt-3">
+					<label>Selecione o Servico:</label>
+					<select class="form-select" th:field="*{servico}">
+						<option th:each="servico : ${servicos}" th:value="${servico.servicoId}" th:text="${servico.tipoServico}">
+					</select>
+				</div>
+				<div class="form-group mt-3">
+					<label>Selecione o Pet:</label>
+					<select class="form-select" th:field="*{pet}">
+						<option th:each="pet : ${pets}" th:value="${pet.petId}" th:text="${pet.nome}">
+					</select>
+				</div>
+				<div class="form-group mt-3">
+					<label>Selecione a Data de entrada:</label>
+					<input class="form-control" type="date" th:field="*{data_entrada}">
+				</div>
+				<div class="form-group mt-3">
+					<label>Selecione a Data de Saída:</label>
+					<input class="form-control" type="date" th:field="*{data_saida}">
+				</div>
+				<button class="btn btn-primary mt-3" type="submit">Salvar</button>
+			</form>
+		</div>
+	</div>
+	<div class="alert alert-primary mt-3" th:if="${mensagem != null}" th:text="${mensagem}"></div>
+</main>
+</html>

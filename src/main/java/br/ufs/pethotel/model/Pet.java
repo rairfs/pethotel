@@ -1,17 +1,20 @@
 package br.ufs.pethotel.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "pets")
@@ -22,40 +25,59 @@ public class Pet {
 	private Long petId;
 	
 	@NotEmpty(message = "O Crachá não pode ser vazio!")
+	@Size(min = 1, max = 10)
 	@Column(unique = true, nullable = false, length = 10)
 	private String cracha;
 	
 	@NotEmpty(message = "O Nome não pode ser vazio!")
 	@Column(nullable = false, length = 45)
+	@Size(min = 1, max = 45)
 	private String nome;
+	
+	@NotEmpty(message = "O Tipo não pode ser vazio!")
+	@Column(nullable = false, length = 45)
+	@Size(min = 1, max = 45)
+	private String tipo;
+	
+	@NotEmpty(message = "A raça não pode ser vazio!")
+	@Column(nullable = false, length = 45)
+	@Size(min = 1, max = 45)
+	private String raca;
 	
 	@NotEmpty(message = "O Sexo não pode ser vazio!")
 	@Column(nullable = false, length = 9)
+	@Size(min = 1, max = 9)
 	private String sexo;
 	
-	@OneToMany(mappedBy = "pet")
-	private List<Estadia> estadia = new ArrayList<>();
+	@OneToMany(mappedBy = "pet", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	private Set<Estadia> estadia = new HashSet<>();
 
 	public Pet() {
 	}
 
-	public Pet(String cracha, String nome, String sexo) {
+	public Pet(String cracha, String nome, String tipo, String raca, String sexo) {
 		this.cracha = cracha;
 		this.nome = nome;
+		this.tipo = tipo;
+		this.raca = raca;
 		this.sexo = sexo;
 	}
 
-	public Pet(String cracha, String nome, String sexo, List<Estadia> estadia) {
+	public Pet(String cracha, String nome, String tipo, String raca, String sexo,  Set<Estadia> estadia) {
 		this.cracha = cracha;
 		this.nome = nome;
+		this.tipo = tipo;
+		this.raca = raca;
 		this.sexo = sexo;
 		this.estadia = estadia;
 	}
 	
-	public Pet(Long petId, String cracha, String nome, String sexo, List<Estadia> estadia) {
+	public Pet(Long petId, String cracha, String nome, String tipo, String raca, String sexo,  Set<Estadia> estadia) {
 		this.petId = petId;
 		this.cracha = cracha;
 		this.nome = nome;
+		this.tipo = tipo;
+		this.raca = raca;
 		this.sexo = sexo;
 		this.estadia = estadia;
 	}
@@ -83,6 +105,22 @@ public class Pet {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	
+	public String getTipo() {
+		return tipo;
+	}
+	
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+	
+	public String getRaca() {
+		return raca;
+	}
+	
+	public void setRaca(String raca) {
+		this.raca = raca;
+	}
 
 	public String getSexo() {
 		return sexo;
@@ -93,12 +131,16 @@ public class Pet {
 	}
 	
 
-	public List<Estadia> getEstadia() {
+	public  Set<Estadia> getEstadia() {
 		return estadia;
 	}
 
-	public void setEstadia(List<Estadia> estadia) {
+	public void setEstadia(Set<Estadia> estadia) {
 		this.estadia = estadia;
+	}
+	
+	public void addEstadia(Estadia estadia) {
+		this.estadia.add(estadia);
 	}
 
 	@Override
@@ -117,6 +159,5 @@ public class Pet {
 		Pet other = (Pet) obj;
 		return Objects.equals(cracha, other.cracha) && Objects.equals(petId, other.petId);
 	}
-	
-	
+
 }

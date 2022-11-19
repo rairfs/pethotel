@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout.html}">
+<main layout:fragment="content">
+
+	<div class="card mt-3">
+		<div class="card-header">
+			Cadastrar Serviço
+		</div>
+		<div class="card-body">
+			<form th:object="${servico}" class="form" method="POST" th:action="@{/servico/formulario}">
+				<input type="hidden" th:field="*{servicoId}">
+				<div class="form-group mt-3">
+					<label for="cracha">Tipo do Serviço</label>
+					<input class="form-control" type="text" th:field="*{tipoServico}" required="required" maxlength="50">
+					<div class="text-danger" th:if="#{fields.hasErrors('tipoServico')}" th:errors="*{tipoServico}"></div>
+				</div>
+				<div class="form-group mt-3">
+					<label>Valor do Serviço</label>
+					<input class="form-control" type="number" th:field="*{valorServico}" required="required" min="0">
+					<div class="text-danger" th:if="#{fields.hasErrors('valorServico')}" th:errors="*{valorServico}"></div>
+				</div>
+				<div id="campo" class="form-group mt-3">
+					
+				</div>
+				<button class="btn btn-primary mt-3" type="submit">Salvar</button>
+			</form>
+		</div>
+	</div>
+	<div class="alert alert-primary mt-3" th:if="${mensagem != null}" th:text="${mensagem}"></div>
+</main>
+</html>
