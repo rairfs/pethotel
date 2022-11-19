@@ -2,7 +2,10 @@ package br.ufs.pethotel.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,8 +34,13 @@ public class PetController {
 	}
 	
 	@PostMapping("/formulario")
-	public ModelAndView cadastrar(Pet pet) {
+	public ModelAndView cadastrar(@Valid Pet pet, BindingResult result) {
 		ModelAndView mv = new ModelAndView("pet/formulario.html");
+		
+		if (result.hasErrors()) {
+			mv.addObject("pet", pet);
+			return mv;
+		}
 		
 		if (pet.getPetId() != null) {
 			mv.addObject("pet", pet);
@@ -40,9 +48,12 @@ public class PetController {
 			mv.addObject("pet", new Pet());
 		}
 		
-		petService.cadastrar(pet);
-
-		mv.addObject("mensagem", "Pet salvo com sucesso!");
+		try {
+			petService.cadastrar(pet);			
+			mv.addObject("mensagem", "Pet salvo com sucesso!");
+		} catch (Exception e) {
+			mv.addObject("mensagem", e.getMessage());
+		}
 		
 		return mv;
 	}

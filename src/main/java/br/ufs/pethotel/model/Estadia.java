@@ -103,5 +103,13 @@ public class Estadia {
 		Estadia other = (Estadia) obj;
 		return Objects.equals(pet, other.pet) && Objects.equals(servico, other.servico);
 	}
+
+	@Override
+	public String toString() {
+		String msg = "Nome Pet: " + this.pet.getNome() + ". Nome Servico: " + this.servico.getTipoServico();
+		return msg;
+	}
+	
+	
 	
 }
